@@ -1,44 +1,29 @@
 # copper-move-search-flow
 
-`copper-move-search-flow` is a Elixir project for Chess and game engines. It turns build an Elixir toolkit that studies search behavior through capacity fixtures, with allocation and spill reports and bounded memory input sets into a small local model with readable fixtures and a direct verification command.
+`copper-move-search-flow` is a Elixir project in chess and game engines. Its focus is to build an Elixir toolkit that studies search behavior through capacity fixtures, with allocation and spill reports and bounded memory input sets.
 
-## Reading Copper Move Search Flow
+## Project Rationale
 
-Start with the README, then open `metadata/project.json` to check the constants behind the examples. After that, `fixtures/cases.csv` shows the compact path and `examples/extended_cases.csv` gives a wider look at the same rule.
+This is intentionally local and self-contained so it can be inspected without credentials, services, or seeded history.
 
-## Purpose
+## Copper Move Search Flow Review Notes
 
-This is not a wrapper around a service. It is a self-contained project that shows how the model behaves when demand, capacity, latency, risk, and weight move in different directions.
+`stale` and `stress` are the cases worth reading first. They show the optimistic and cautious ends of the fixture.
 
-## Files Worth Reading
+## Feature Set
 
-- `lib`: library code
-- `test`: language test directory
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+- `fixtures/domain_review.csv` adds cases for position pressure and move ordering.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/copper-move-search-walkthrough.md` walks through the case spread.
+- The Elixir code includes a review path for `position pressure` and `move ordering`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## What It Does
+## Architecture
 
-- Includes extended examples for turn flow, including `surge` and `degraded`.
-- Documents search limits tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `position pressure`, `move ordering`, `search width`, and `endgame risk`.
 
-## Design Sketch
-
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The Elixir project uses Mix and ExUnit with clear data maps for each scenario.
-
-## Setup
-
-Clone the repository, enter the directory, and run the verifier. No database server, cloud account, or token is required.
-
-## Fixture Notes
-
-`boundary` is the first example I would inspect because it lands on the `review` path with a score of 111. The broader file also keeps `degraded` at -8 and `surge` at 235, which gives the model a useful low-to-high spread.
+The Elixir addition stays small enough to inspect in one sitting.
 
 ## Usage
 
@@ -46,23 +31,10 @@ Clone the repository, enter the directory, and run the verifier. No database ser
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Test Command
 
-## Verification
+The verifier is intentionally local. It should fail if the fixture score math, lane assignment, or language-specific test drifts.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Next Improvements
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Next Directions
-
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add one more chess and game engines fixture that focuses on a malformed or borderline input.
-
-## Limits
-
-The scoring model is simple by design. More domain-specific behavior should be added through explicit adapters or extra fixture classes rather than hidden constants.
+No external service is required. A deeper version would add more negative cases and a clearer boundary around invalid input.

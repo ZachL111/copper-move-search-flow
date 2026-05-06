@@ -1,0 +1,73 @@
+{
+  "repo": "copper-move-search-flow",
+  "language": "Elixir",
+  "category": "Chess and game engines",
+  "goal": "Build an Elixir toolkit that studies search behavior through capacity fixtures, with allocation and spill reports and bounded memory input sets.",
+  "review_model": {
+    "terms": [
+      "position pressure",
+      "move ordering",
+      "search width",
+      "endgame risk"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "position pressure",
+      "signal": 62,
+      "slack": 39,
+      "drag": 13,
+      "confidence": 56,
+      "score": 180,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "move ordering",
+      "signal": 45,
+      "slack": 40,
+      "drag": 31,
+      "confidence": 72,
+      "score": 109,
+      "lane": "watch"
+    },
+    {
+      "name": "edge",
+      "focus": "search width",
+      "signal": 82,
+      "slack": 23,
+      "drag": 14,
+      "confidence": 51,
+      "score": 196,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "endgame risk",
+      "signal": 68,
+      "slack": 48,
+      "drag": 31,
+      "confidence": 84,
+      "score": 175,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "position pressure",
+      "signal": 74,
+      "slack": 32,
+      "drag": 24,
+      "confidence": 92,
+      "score": 200,
+      "lane": "ship"
+    }
+  ]
+}
